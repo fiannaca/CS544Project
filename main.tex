@@ -122,7 +122,7 @@ The previous section stress tested each of the databases by generating a fixed n
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/realworld}
-    \caption{Percentage of Messages Persisted Across Four Real World Datasets. \textit{MIT1} and \textit{MIT2} are bagfiles from the MIT Stata center dataset and \textit{HCR1} and \textit{HCR2} are bagfiles from previous robotics experiments run in the Human-Centered Robotics Lab at the University of Washington.}
+    \caption{Percentage of Messages Persisted Across Four Real World Datasets. \textit{MIT1} and \textit{MIT2} are bagfiles from the MIT Stata center dataset and \textit{HCR1} and \textit{HCR2} are bagfiles from previous robotics experiments run in the Human-Centered Robotics Lab at the University of Washington. Note that the vertical axis shows the range (80, 100).}
     \label{fig:realworld}
 \end{figure}
 
@@ -134,6 +134,61 @@ Up to this point, the major set of work completed in this project has been in de
 
 \subsubsection{Robotics Query Performance}
 We want to explore the expressivity of the query functionality for each database in addition to the time required to execute several representative queries over ROS message datasets. One set of queries we would like to test is retrieving messages based on values inside the messages. Clearly, any database system used for logging ROS messages will need to have the ability to query over JSON messages. Another set of queries to try is to retrieve a set of messages between two points in time. However, we are still considering what kinds of queries would be more interesting. This is challenging because ROS messages tend to represent readings from different sensors, which are not synchronized to produce messages at the same time. Therefore, it is hard to compute joins across different types of sensors. For example, one topic might receive a message whenever the robot's gripper is opened or closed, which occurs infrequently, while another topic might output the position of the robot's gripper in 3D space, which is output many times a second. An example of an interesting query would be to compute how much time is spent moving the robot's gripper while it is open. However, it's not clear how to write this query in any of the database systems we're evaluating. As a result, we may just evaluate how easy and efficient it is to query for data, such that we can manually compute the answers to more complex queries.
+
+Queries:
+\begin{itemize}
+\item Get the number of times the right gripper was closed
+\item Get the amount of time the camera was behind the robot
+\item Get the number of times the right gripper was moved while in a particular region
+\item Get the number of times a grasp was attempted with the right when the camera was in front of the robot (+/- 0.1 seconds)
+\end{itemize}
+
+% Query:
+% select sum(foo.count) from (select count(*) from r_gripper_controller__command where CAST(data::json->>'position' AS real)=0 union select count(*) from l_gripper_controller__command where CAST(data::json->>'position' AS real)=0) as foo;
+% Result: 10
+
+Complex queries: how to compute number of times the camera was moved, by counting number of runs of changing values.
+
+% MongoDB
+% Get the number of times the right gripper was closed
+% db.runCommand({count: 'r_gripper_controller__command', query: {'position': 0.0}})
+% { "n" : 3, "ok" : 1 }
+% millis: 0
+
+% Get the amount of time where the camera was behind the robot.
+% db.runCommand({count: 'rviz_camera_publisher__camera_pose', query: {'position.x': {$lte: 0}}})
+% { "n" : 1292, "ok" : 1 }
+% millis: 19
+
+% Get the number of times the right gripper was moved in a particular region
+% db.runCommand({count: 'r_cart__command_pose', query: {'pose.position.z': {$gt: 1}, 'pose.position.y': {$gt: -0.5, $lt: 0.5}, 'pose.position.x': {$gt: 0.5, $lt: 1}}})
+% millis: 2
+
+% Get the number of times a grasp was attempted with the right gripper when the camera was in front of the robot 
+% 
+
+% SQLite3:
+%
+%   --Count msgs where position.x <= 0
+%   SELECT COUNT(*) 
+%   FROM rviz_camera_publisher__camera_pose
+%   WHERE json_le_field(msg, 'position.x', 0);
+%
+%   result: 1292, 124.76ms (3179.27ms on first run)
+%
+%   --Count msgs where position.x >= 0
+%   SELECT COUNT(*) 
+%   FROM rviz_camera_publisher__camera_pose
+%   WHERE json_ge_field(msg, 'position.x', 0);
+%
+%   result: 11275, 121.25ms
+%
+%   --Count msgs where header.stamp.secs >= 1400729704
+%   SELECT COUNT(*) 
+%   FROM head_mount_kinect__rgb__image_color__compressed
+%   WHERE json_ge_field(msg, header.stamp.secs, 1400729704);
+%
+%   result: 8678, 2074.9ms
 
 
 %\section{Discussion}
