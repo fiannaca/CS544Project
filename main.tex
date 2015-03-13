@@ -164,107 +164,33 @@ To evaluate how useful the logging system would be to a robotics researcher, we 
 
 The research questions we wanted to answer from the dataset included the following queries:
 \begin{enumerate}[label=Q\arabic*]
-\item Get the number of times the right gripper was closed
-\item Get the amount of time the camera was behind the robot
-\item Get the number of times the right gripper was moved while in a particular region
-\item Get the number of times a grasp was attempted with the right gripper when the camera was in front of the robot (+/- 0.1 seconds)
+    \item Get the number of times the right gripper was closed
+    \item Get the amount of time the camera was behind the robot
+    \item Get the number of times the right gripper was moved while in a particular region
+    \item Get the number of times a grasp was attempted with the right gripper when the camera was in front of the robot (+/- 0.1 seconds)
 \end{enumerate}
 
-The time for each query is shown in figure X.
+The time for each query is shown in table \ref{tab:queries}.
 
-\begin{figure}
-\centering
-\begin{tabular}{c | c | c | c | c}
-  & Q1 & Q2 & Q3 & Q4 \\
- \hline
- MongoDB & & & & \\
- Postgres & & & & \\
- SQLite3 & & & & \\
- MongoDB (indexed) & & & & \\
- Postgres (indexed) & & & & 
-\end{tabular}
-\caption{Query times for each query using MongoDB, PostgreSQL, and SQLite3. For MongoDB and PostgreSQL, we also report query times after creating indices designed for each query.}
-\label{fig:my_label}
-\end{figure}
+\begin{table}
+    \centering
+    \begin{tabular}{c | c | c | c | c}
+        Database           & Q1     & Q2      & Q3      & Q4     \\
+        \hline
+        MongoDB            & <1     & 40      & 32      & 2.68e3 \\
+        MongoDB (indexed)  & <1     & 12      & 44      & 668    \\
+        Postgres           & 21.49  & 232.25  & 347.27  & 1.99e4 \\
+        Postgres (indexed) & 1.14   & 225.45  & 352.11  & 1.95e4 \\
+        SQLite3            & 1.20   & 2414.52 & 1547.70 & 4.85e5 
+    \end{tabular}
+    \caption{Query times, in milliseconds, for each query using MongoDB, PostgreSQL, and SQLite3. For MongoDB and PostgreSQL, we also report query times after creating indices designed for each query.}
+    \label{tab:queries}
+\end{table}
 
-% Query:
-% select sum(foo.count) from (select count(*) from r_gripper_controller__command where CAST(data::json->>'position' AS real)=0 union select count(*) from l_gripper_controller__command where CAST(data::json->>'position' AS real)=0) as foo;
-% Result: 10
 
 Complex queries: how to compute number of times the camera was moved, by counting number of runs of changing values.
 
-MongoDB
-
 % Add paragraph about lines of code necessary to answer these questions
-
-% MongoDB
-% Get the number of times the right gripper was closed
-% db.r_gripper_controller__command.find({'position': 0.0}).count()
-% 3
-% millis: 0
-
-% Get the amount of time where the camera was behind the robot.
-% db.rviz_camera_publisher__camera_pose.find({'position.x': {$lte: 0}}).count()
-% 1292
-% millis: 22
-
-% Get the number of times the right gripper was moved in a particular region
-% db.r_cart__command_pose.find({
-%   'pose.position.z': {$gt: 1},
-%   'pose.position.y': {$gt: -0.5, $lt: 0.5},
-%   'pose.position.x': {$gt: 0.5, $lt: 1}
-% }).count()
-% 618
-% millis: 2
-
-% Get the number of times a grasp was attempted with the right when the camera was in front of the robot (+/- 0.5 seconds)
-% db.r_gripper_controller__command.find({'position': 0.0}).map(
-%   function(evt) {
-% 	  var evtTime = evt._meta.inserted_at.getTime();
-%     var row = db.rviz_camera_publisher__camera_pose.findOne({
-%       'position.x': {$gte: 0},
-%       '_meta.inserted_at': {
-% 			  $lt: new Date(evtTime + 500),
-% 				$gt: new Date(evtTime - 500)
-% 			}
-%     })
-% 		return row;
-%   }
-% ).length
-% 3
-% millis: 60
-
-
-% SQLite3:
-%
-%   --Q1
-%       SELECT COUNT(*) as count
-%       FROM r_gripper_controller__command 
-%       WHERE json_eq_field(msg, position, 0);
-%
-%       result: 3, 0.29ms (25.54ms on second run)
-%
-%   --Q2
-%       SELECT COUNT(*) 
-%       FROM rviz_camera_publisher__camera_pose
-%       WHERE json_le_field(msg, 'position.x', 0);
-%
-%       result: 1292, 138.73ms (20886.92ms on first run)
-%
-%   --Q3
-%       SELECT COUNT(*) 
-%       FROM r_cart__command_pose
-%       WHERE json_gt_field(msg, pose.position.z, 1)
-%       AND   json_gt_field(msg, pose.position.y, -0.5)
-%       AND   json_lt_field(msg, pose.position.y, 0.5)
-%       AND   json_gt_field(msg, pose.position.x, 0.5)
-%       AND   json_lt_field(msg, pose.position.x, 1);
-%
-%       result: 618, 80.14ms (4645.94ms on first run)
-%
-%   --Q4
-%       
-
 
 
 %\section{Discussion}
