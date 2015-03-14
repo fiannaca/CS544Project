@@ -4,6 +4,131 @@
 \usepackage{color,soul}
 \usepackage{enumitem}
 
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkgray}{rgb}{0.4, 0.4, 0.4}
+\definecolor{editorGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+\definecolor{editorGreen}{rgb}{0, 0.5, 0}
+\definecolor{orange}{rgb}{1,0.45,0.13}      
+\definecolor{olive}{rgb}{0.17,0.59,0.20}
+\definecolor{brown}{rgb}{0.69,0.31,0.31}
+\definecolor{purple}{rgb}{0.38,0.18,0.81}
+\definecolor{lightblue}{rgb}{0.1,0.57,0.7}
+\definecolor{lightred}{rgb}{1,0.4,0.5}
+
+\usepackage{upquote}
+\usepackage{listings}
+
+% JavaScript
+\lstdefinelanguage{JavaScript}{
+    morekeywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+    morecomment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morestring=[b]",
+    morestring=[b]'
+}
+
+\lstdefinestyle{pystyle} {%
+    language=python,
+    literate=%
+    *{0}{{{\color{lightred}0}}}1
+    {1}{{{\color{lightred}1}}}1
+    {2}{{{\color{lightred}2}}}1
+    {3}{{{\color{lightred}3}}}1
+    {4}{{{\color{lightred}4}}}1
+    {5}{{{\color{lightred}5}}}1
+    {6}{{{\color{lightred}6}}}1
+    {7}{{{\color{lightred}7}}}1
+    {8}{{{\color{lightred}8}}}1
+    {9}{{{\color{lightred}9}}}1,
+    basicstyle=\footnotesize\ttfamily, % Standardschrift
+    numbers=none,               % Ort der Zeilennummern
+    %numberstyle=\tiny,          % Stil der Zeilennummern
+    %stepnumber=2,               % Abstand zwischen den Zeilennummern
+    numbersep=5pt,              % Abstand der Nummern zum Text
+    tabsize=4,                  % Groesse von Tabs
+    extendedchars=true,         %
+    breaklines=true,            % Zeilen werden Umgebrochen
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{brown}\itshape,
+    stringstyle=\color{editorOcher}\ttfamily, % Farbe der String
+    showspaces=false,           % Leerzeichen anzeigen ?
+    showtabs=false,
+    xleftmargin={0cm},
+    showstringspaces=false,      % Leerzeichen in Strings anzeigen ?
+}
+
+\lstdefinestyle{htmlcssjs} {%
+    % General design
+    %  backgroundcolor=\color{editorGray},
+    basicstyle={\footnotesize\ttfamily},   
+    % line-numbers
+    xleftmargin={0cm},
+    numbers=none, 
+    % Code design
+    identifierstyle=\color{black},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywordstyle=\color{editorGreen}\bfseries,
+    stringstyle=\color{editorOcher}\ttfamily,
+    commentstyle=\color{brown}\ttfamily,
+    % Code
+    language=JavaScript,
+    alsodigit={.:;},  
+    tabsize=2,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    extendedchars=true,
+    breaklines=true
+}
+
+\lstdefinestyle{py} {%
+    language=python,
+    literate=%
+    *{0}{{{\color{lightred}0}}}1
+    {1}{{{\color{lightred}1}}}1
+    {2}{{{\color{lightred}2}}}1
+    {3}{{{\color{lightred}3}}}1
+    {4}{{{\color{lightred}4}}}1
+    {5}{{{\color{lightred}5}}}1
+    {6}{{{\color{lightred}6}}}1
+    {7}{{{\color{lightred}7}}}1
+    {8}{{{\color{lightred}8}}}1
+    {9}{{{\color{lightred}9}}}1,
+    basicstyle=\footnotesize\ttfamily, % Standardschrift
+    numbers=left,               % Ort der Zeilennummern
+    %numberstyle=\tiny,          % Stil der Zeilennummern
+    %stepnumber=2,               % Abstand zwischen den Zeilennummern
+    numbersep=5pt,              % Abstand der Nummern zum Text
+    tabsize=4,                  % Groesse von Tabs
+    extendedchars=true,         %
+    breaklines=true,            % Zeilen werden Umgebrochen
+    keywordstyle=\color{blue}\bfseries,
+    frame=b,
+    commentstyle=\color{brown}\itshape,
+    stringstyle=\color{editorOcher}\ttfamily, % Farbe der String
+    showspaces=false,           % Leerzeichen anzeigen ?
+    showtabs=false,             % Tabs anzeigen ?
+    xleftmargin=17pt,
+    framexleftmargin=17pt,
+    framexrightmargin=5pt,
+    framexbottommargin=4pt,
+    %backgroundcolor=\color{lightgray},
+    showstringspaces=false,      % Leerzeichen in Strings anzeigen ?
+}
+
+
+\lstdefinestyle{sql} {%
+    language=SQL,
+    showspaces=false,
+    basicstyle=\ttfamily,
+    numbers=none,
+    commentstyle=\color{darkgray},
+    keywordstyle=\color{blue}\bfseries,
+}
+
+
+
 \DeclareGraphicsExtensions{.png, .PNG}
 
 \hyphenation{robo-tics amou-nts data-base cho-sen}
@@ -76,7 +201,7 @@ In order to evaluate these three criteria, we conducted three studies comparing 
 \label{sec:datasets}
 In order to persist ROS messages, all messages were converted to a JSON (Javascript Object Notion) representation. The structure of JSON provides several benefits when it comes to storing ROS messages:
 \begin{enumerate}
-\item JSON allows for flexibility in message structure, thereby ensuring changes in message structure which are inevitable during the development of a robotics system will not be breaking changes for the datastore,
+\item JSON allows for flexibility in message structure, thereby ensuring that changes in message structure, which are inevitable during the development of a robotics system, will not be breaking changes for the datastore,
 \item JSON is structured in a very similar manner (nested dictionaries) to that of ROS messages allowing for simple conversion between the formats,
 \item JSON can be queried against as opposed to traditional binary message representations.
 \end{enumerate}
@@ -102,7 +227,7 @@ In order to persist ROS messages, all messages were converted to a JSON (Javascr
 
 Given this choice of data representation, MongoDB was chosen as a good candidate database for evaluation since MongoDB is a NoSQL document-oriented database which stores all data in JSON and is optimized for fast JSON-based queries. While JSON has not traditionally been considered well suited to being stored in a relational database (having a potentially varied structure), recent advances in PostgreSQL 9.4 have added extensions which allow PostgreSQL to query against JSON data columns in a similar fashion to that of MongoDB, except through the high-level query language SQL. Therefore, PostgreSQL with JSON support was chosen as the second database to evaluate in this study. Finally, initial tests showed that the primary challenge in creating a ROS message logging database is that ROS can have potentially many messages streaming through its network at any given time (on the order of Gb per minute), making it challenging to persist all of the messages in the network as fast as they are generated. For this reason, SQLite3, an embedded database designed to have minimal overhead, was chosen as the third database to evaluate. While future work should be conducted to examine the potential of using streaming engines running on computer clusters for real-time analytics, this work focuses on the more common hardware setup for the average roboticist of a one to two computer system without the requisite resources for running extremely RAM intensive data stores such as the in-memory database VoltDb or the streaming engine Spark Streaming.
 
-For the first criteria evaluated in this study (throughput), a synthetic dataset was generated by creating a message streaming ROS node with the ability to generate multiple topics running at the same frequency and sending messages of the same size in terms of bytes. To test the second criteria (real-world dataset performance), both a set of eight bag files obtained from previous research in our lab (referred to as the HCR dataset) and two bag files from the MIT Stata Center dataset were chosen \cite{fallon2013stata}. The MIT Stata Center data set encompasses a series of recordings of data from a PR2 robot driving around a building. It includes data types such as laser scans, accelerometer data, and images. While unconventional, these types of data are common in robotics research. Finally, in order to evaluate the third criteria (query performance), we populated databases with data from eight bag files from the HCR dataset. The HCR dataset consists of data recorded from a real-world user study, which was conducted prior to the work for this paper. In the study, users tried teleoperating a PR2 robot with a particular 3D user interface. The message types in this dataset include the locations of the 3D viewpoints the users used to look at the robot, the gripper state, and the gripper location, which are useful for testing queries against data reflecting a broad subset of possible message types in the ROS environment.
+For the first criteria evaluated in this study (throughput), a synthetic dataset was generated by creating a message streaming ROS node with the ability to generate multiple topics running at the same frequency and sending messages of the same size in terms of bytes. To test the second criteria (real-world dataset performance), both a set of eight bag files obtained from previous research in our lab (referred to as the HCR dataset) and two bag files from the MIT Stata Center dataset were chosen \cite{fallon2013stata}. The MIT Stata Center data set encompasses a series of recordings of data from a PR2 robot driving around a building. It includes data types such as laser scans, accelerometer data, and images. While unconventional, these types of data are common in robotics research. Finally, in order to evaluate the third criteria (query performance), we populated databases with data from eight bag files from a dataset obtained from previous research, \textit{HCR}. The \textit{HCR} dataset consists of data recorded from a real-world user study, which was conducted prior to the work for this paper. In the study, users tried teleoperating a PR2 robot with a particular 3D user interface. The message types in this dataset include the locations of the 3D viewpoints the users used to look at the robot, the gripper state, and the gripper location, which are useful for testing queries against data reflecting a broad subset of possible message types in the ROS environment.
 
 \begin{figure*}
     \centering
@@ -129,14 +254,14 @@ In the ROS ecosystem, published topics vary significantly in both the frequency 
 
 \subsubsection{Tuning PostgreSQL}
 \label{sec:tuning}
-In preliminary tests of the throughput measurement procedure it was observed that PostgreSQL was performing significantly worse than both SQLite3 and MongoDB on the throughput experiment. It was determined that this was likely due to the fact that the our naive implementation of the PostgreSQL-ROS interface inserted each ROS message in autocommit mode. This means that each message was inserted in its own transaction. This clearly causes some amount of unnecessary overhead, although the degree to which using autocommit mode slows down PostgreSQL was unclear. Therefore, an additional test was run in which the naive PostgreSQL-ROS interface was re-engine-ered in order to allow message inserts to be batched into 2 second groups for each database transaction under the hypothesis that this optimization could yield significantly greater throughput values by decreasing overhead. As can be seen in Figure \ref{fig:tuning}, this optimization did yield improved throughput for the PostgreSQL database. To further tune the PostgreSQL engine, both the effective cache size and shared buffer size were increased to rather aggressive levels (12Gb and 4Gb respectively) in order to encourage maximally efficient inserts. Again, this optimization improved overall PostgreSQL performance, but only by a small amount when considering the throughput values obtained by SQLite3 and MongoDB (see Figure \ref{fig:throughput}). Figure \ref{fig:throughput} references the throughput values for the final optimized version of the PostgreSQL engine determined in this section.
+In preliminary tests of the throughput measurement procedure it was observed that PostgreSQL was performing significantly worse than both SQLite3 and MongoDB on the throughput experiment. It was determined that this was likely due to the fact that the our naive implementation of the PostgreSQL-ROS interface inserted each ROS message in autocommit mode. This means that each message was inserted in its own transaction. This clearly causes some amount of unnecessary overhead, although the degree to which using autocommit mode slows down PostgreSQL was unclear. Therefore, an additional test was run in which the naive PostgreSQL-ROS interface was re-engineered in order to allow message inserts to be batched into 2 second groups for each database transaction, under the hypothesis that this optimization could yield significantly greater throughput values by decreasing overhead. As can be seen in Figure \ref{fig:tuning}, this optimization did yield improved throughput for the PostgreSQL database. To further tune the PostgreSQL engine, both the effective cache size and shared buffer size were increased to rather aggressive levels (12Gb and 4Gb respectively) in order to encourage maximally efficient inserts. Again, this optimization improved overall PostgreSQL performance, but only by a small amount when considering the throughput values obtained by SQLite3 and MongoDB (see Figure \ref{fig:throughput}). Figure \ref{fig:throughput} references the throughput values for the final optimized version of the PostgreSQL engine determined in this section.
 
 %; however, SQLite3 and MongoDB were still significantly better, often by factors of 2 to 3 times greater throughput.
 
 \subsubsection{Results}
-Results for the throughput evaluation against PostgreSQL (tuned discussed in section \ref{sec:tuning}), MongoDB, and SQLite3 can be seen in Figure \ref{fig:throughput}. Figure \ref{fig:throughput} splits these results into three graphs, one for each of the frequency levels. Interestingly, PostgreSQL performed significantly worse than both SQLite3 and MongoDB. This is perhaps not particularly surprising seeing as how SQLite3 is designed to be an embedded database with minimal overhead, and MongoDB is specifically designed for handling JSON data whereas PostgreSQl is designed to manage relational data with extensions for JSON document data.
+Results for the throughput evaluation against PostgreSQL (tuned as discussed in section \ref{sec:tuning}), MongoDB, and SQLite3 can be seen in Figure \ref{fig:throughput}. Figure \ref{fig:throughput} splits these results into three graphs, one for each of the frequency levels. Interestingly, PostgreSQL performed significantly worse than both SQLite3 and MongoDB. This is perhaps not particularly surprising seeing as how SQLite3 is designed to be an embedded database with minimal overhead, and MongoDB is specifically designed for handling JSON data whereas PostgreSQl is designed to manage relational data with extensions for JSON document data.
 
-It is important to note in Figure \ref{fig:throughput} that the points on the left of each graph at which all four implementations achieved that same throughput are points at which all messages made it into the database. These values therefore do not indicate a maximum throughput for the given message frequency and size. However, divergence of the throughput graphs at larger message sizes indicate that only some fraction of the total number of messages generated were actually inserted into the database, indicating the maximal throughput for each database at these given message frequencies and sizes. 
+Figure \ref{fig:throughput} shows the throughput of each database system given a certain publishing rate and message size, for a fixed number of messages. The points on the left of each graph, where all three implementations achieved the same throughput, show that for small message sizes, all three implementations were able to persist all the messages we published. However, as the message sizes grow larger, we can see that only some fraction of the total number of messages generated were actually inserted into the database, indicating the maximal throughput for each database at these given message frequencies and sizes. 
 
 As can be seen in Figure \ref{fig:throughput}, as message size and frequency increase, the observed maximal throughput increases. This is not surprising since increased message sizes enable each of the databases to perform writes of large blocks of data to the disk which are more efficient than writes of small amounts of data. Additionally, higher frequency ensures that the database is constantly working at storing messages, removing any idle periods that may have been present at lower frequencies.
 
@@ -159,14 +284,20 @@ Figure \ref{fig:realworld} shows that for both \textit{HCR1} and \textit{HCR2}, 
 \end{figure}
 
 \subsection{Query Performance}
-Up to this point, our work has been focused on efficiently and effectively persisting ROS messages to a database; however, we have yet to consider the flexibility and efficiency of querying against the databases after the ROS messages have been store. Therefore, in the last portion of our benchmarking study, we sought to evaluate the querying capabilities of PostgreSQL, SQLite3, and MongoDB in regards to queries that are potentially of interest to robotics researchers. To this end, we evaluated the time taken execute several representative queries against the \textit{HCR} dataset (see section \ref{sec:datasets}). The research questions we wanted to answer from the dataset included the following queries:
+Up to this point, our work has been focused on efficiently and effectively persisting ROS messages to a database; however, we have yet to consider the flexibility and efficiency of querying against the databases after the ROS messages have been store. Therefore, in the last portion of our benchmarking study, we sought to evaluate the querying capabilities of PostgreSQL, SQLite3, and MongoDB in regards to queries that are potentially of interest to robotics researchers. To this end, we evaluated the time taken execute several representative queries against the \textit{HCR} dataset (see section \ref{sec:datasets}). The research questions we wanted to answer from the dataset are shown in Figure \ref{fig:hcrqueries}.
 
+These queries were chosen to test a set of important capabilities for the logging system to have. Each system should have the ability to retrieve results and filter by a field inside the JSON message. Additionally, each system should efficiently support range queries. Finally, we wanted to see how well each system could compute a join, using the timestamp as a join key. Because messages are asynchronous, the join is on a small time range around one of the timestamps. The queries were also chosen to reflect questions that the researchers behind the \textit{HCR} dataset actually answered in their study, by manually processing the recordings.
+
+\begin{figure}
 \begin{enumerate}[label=Q\arabic*]
     \item Get the number of times the right gripper was closed
-    \item Get the amount of time the camera was behind the robot
+    \item Get the every viewpoint position when the viewpoint was behind the robot
     \item Get the number of times the right gripper was moved while in a particular region
     \item Get the number of times a grasp was attempted with the right gripper when the camera was in front of the robot (+/- 0.1 seconds)
 \end{enumerate}
+\caption{The queries we wanted to answer from the \textit{HCR} dataset.}
+\label{fig:hcrqueries}
+\end{figure}
 
 \subsubsection{Results}
 
@@ -188,32 +319,177 @@ The time for each query is shown in table \ref{tab:queries}. See the appendix fo
 \end{table}
 
 \section{Discussion}
-\hl{Add some discussion about the throughput and real-world sections of the paper...}
+The results from our three studies ultimately suggest that MongoDB would be the best database system to use for a ROS logging system. Although SQLite3 had higher throughput on the synthetic dataset, MongoDB had the highest throughput on a real world dataset. Additionally, MongoDB outperformed both PostgreSQL and SQLite3 in terms of query performance, especially on the query which required a join.
 
-\subsection{Queries}
 Using a database offers robotics researchers a convenient way to analyze their data. For example, it takes about 10 lines of Python code to manually process a bag file to find out how many times the right gripper was closed (Q1). But, using a database, the same query can be written with just a single line of SQL or Javascript. Our results showed that using MongoDB, queries could be completed in a couple of seconds or less, which is fast enough for researchers to interactively study their data.
 
 On the other hand, some questions are easier to answer by hand writing code, as opposed to writing a query. For example, consider the problem of counting how many times the user changed the 3D viewpoint in the interface. The location of the 3D viewpoint is continuously published several times a second, so as the user changes their viewpoint in a single, fluid motion, each location will be logged with a slightly different position. Once the user stops moving the viewpoint, the location messages will be identical to each other. As a result, when there is a continuous run of distinct values for the viewpoint location, we say that the user is changing their viewpoint. Once the viewpoint locations stay the same, we say the user has stopped changing their viewpoint. In this case, writing a query would be far more difficult than writing code to process the data. 
 
 This issue is an artifact of the type of data sent through ROS networks. Messages in ROS tend to reflect the state of a single sensor at a specific point in time. However, for analysis purposes, we are often interested in high-level changes in states. Additionally, because the messages are asynchronous, it is hard to join tuples based on time. For example, in Q4, we join the gripper position and the camera position using a time window of +/- 0.1 seconds.
 
-\section{Conclusion}
+\section{Future work}
+One of the key issues that came up with PostgreSQL and SQLite3 throughout this study was that neither database system was designed to handle JSON structured data natively. This was especially noticeable when evaluating the database systems for query performance. One area that would be interesting to study is if we could trade throughput and flexiblity for query performance. For example, instead of storing ROS messages as JSON data, the logging system could transform ROS messages into flattened tuples of the appropriate type. This would allow the user to query the database without needing special JSON support. The user could also add indices on certain columns, which we were unable to do with PostgreSQL and SQLite in this study. One downside to this approach is that throughput would decrease, since easy message would have to be flattened out before inserting it into the database. However, as we saw earlier, PostgreSQL and SQLite3 had no problem inserting all the messages in the \textit{HCR} dataset. The other downside to this approach is that any change to the ROS message structure would require a schema change in the corresponding SQL tables. As a result, this solution would be best for small, one-off research projects.
 
-\hl{Add a conclusion...}
+Another area of future work is to analyze streaming data analysis solutions such as Apache Spark or VoltDB. These database systems could be useful for situations in which the robots are more established and are already deployed. These solutions would allow the developer to keep track of key statistics on the robot's sensor data in real-time.
+
+\section{Conclusion}
+In this paper, we characterized the performance of three different database systems for use in a robotics logging application. We compared their maximum throughput for both synthetic and real-world datasets. Finally, we evaluated their speed at conducting several queries that were drawn from previous robotics research. Overall, we found that MongoDB would be the best database system to back a logging application, both because it had good throughput, and because its data model enabled fast queries across the datasets.
 
 \bibliographystyle{abbrv}
 \bibliography{references.bib}  
 
+\clearpage
+
+\onecolumn
+
 \appendix
+\vspace{0.5cm}
 
-\section{MongoDB Queries}
-\hl{Add these}
+\section{MongoDB Queries (\textit{in JavaScript})}
+\vspace{0.5cm}
+\begin{lstlisting}[style=htmlcssjs]
+var c = db.r_gripper_controller__command.find({'position': 0.0}).count();
 
-\section{PostgreSQL Queries}
-\hl{Add these}
+var c = db.rviz_camera_publisher__camera_pose.find({'position.x': {$lte: 0}}).count();
 
-\section{SQLite3 Queries}
-\hl{Add these}
+var c = db.r_cart__command_pose.find({
+  'pose.position.z': {$gt: 1},
+  'pose.position.y': {$gt: -0.5, $lt: 0.5},
+  'pose.position.x': {$gt: 0.5, $lt: 1}
+}).count();
+
+var c = db.r_gripper_controller__command.find({'position': 0.0}).map(
+  function(evt) {
+    var evtTime = evt._meta.inserted_at.getTime();
+    var row = db.rviz_camera_publisher__camera_pose.findOne({
+      'position.x': {$gte: 0},
+      '_meta.inserted_at': {
+        $lt: new Date(evtTime + 500),
+        $gt: new Date(evtTime - 500)
+      }
+    })
+    return row;
+  }
+).length;
+
+db.r_gripper_controller__command
+  .createIndex({"position": 1});
+  
+db.rviz_camera_publisher__camera_pose
+  .createIndex({"position.x": 1, "_meta.inserted_at": 1});
+  
+db.r_cart__command_pose
+  .createIndex({"pose.position.x": 1, "pose.position.y": 1, "pose.position.z": 1});
+\end{lstlisting}
+
+
+\section{PostgreSQL Queries (\textit{in SQL})}
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=sql]
+SELECT 	COUNT(*) 
+FROM 	r_gripper_controller__command 
+WHERE 	(data->>'position')::REAL = 0;
+
+SELECT	COUNT(*)
+FROM	rviz_camera_publisher__camera_pose
+WHERE	(data->'position'->>'x')::REAL <= 0;
+
+SELECT	COUNT(*)
+FROM    r_cart__command_pose    --Contains right gripper location info
+WHERE   (data->'pose'->'position'->>'z')::REAL > 1
+AND     (data->'pose'->'position'->>'y')::REAL > -0.5
+AND     (data->'pose'->'position'->>'y')::REAL < 0.5
+AND     (data->'pose'->'position'->>'x')::REAL > 0.5
+AND     (data->'pose'->'position'->>'x')::REAL < 1;
+
+SELECT	COUNT(*)
+FROM	r_gripper_controller__command a
+WHERE	(data->>'position')::REAL = 0
+AND     EXISTS (
+            SELECT  *
+            FROM    rviz_camera_publisher__camera_pose b
+            WHERE   ABS(EXTRACT(EPOCH FROM 
+                        CAST(a.data->'_meta'->>'inserted_at' AS TIMESTAMP WITH TIME ZONE) - 
+                        CAST(b.data->'_meta'->>'inserted_at' AS TIMESTAMP WITH TIME ZONE)
+                    )) < 0.5
+            AND     (b.data->'position'->>'x')::REAL >= 0
+        );
+\end{lstlisting}
+
+\section{SQLite3 Queries (\textit{in Python})}
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=pystyle]
+# Example UDF to test a JSON field for equality against a constant
+def get_val(self, doc, key):
+		d = json.loads(doc)
+
+		val = pq(d, key)
+
+		return val
+
+def json_eq_field(self, doc, key, value):
+	val = self.get_val(doc, key)
+
+	if val is None:
+		return False
+
+	return val == value
+	
+#Queries
+lite = NSQlite3('querytestlarge.db', JSONAdapter())
+coll = lite.collection()
+
+#Q1
+sql = '''SELECT COUNT(*) as count
+		 FROM   r_gripper_controller__command 
+		 WHERE  json_eq_field(msg, ?, ?);'''
+
+coll.execute(sql, ['position', 0]).all()
+
+#Q2
+sql = '''SELECT COUNT(*) 
+		 FROM   rviz_camera_publisher__camera_pose
+		 WHERE  json_le_field(msg, ?, ?);'''
+
+coll.execute(sql, ['position.x', 0]).all()
+
+#Q3
+sql = '''SELECT COUNT(*) 
+		 FROM   r_cart__command_pose
+		 WHERE  json_gt_field(msg, ?, ?)
+		 AND    json_gt_field(msg, ?, ?)
+		 AND    json_lt_field(msg, ?, ?)
+		 AND    json_gt_field(msg, ?, ?)
+		 AND    json_lt_field(msg, ?, ?);'''
+		 
+vals = ['pose.position.z', 1, 
+		'pose.position.y', -0.5, 
+		'pose.position.y', 0.5, 
+		'pose.position.x', 0.5, 
+		'pose.position.x', 1]
+		
+coll.execute(sql, vals).all()
+
+#Q4
+sql = '''SELECT COUNT(*)
+		 FROM 	r_gripper_controller__command a
+		 WHERE 	json_eq_field(a.msg, ?, ?)
+		 AND   	EXISTS (
+		 			SELECT 	*
+		 			FROM 	rviz_camera_publisher__camera_pose b
+		 			WHERE 	json_get_time_diff(a.msg, ?, b.msg, ?) < 500
+		 			AND   	json_ge_field(b.msg, ?, ?)
+		 	   	);'''
+
+vals = ['position', 0.0, 
+		'_meta.inserted_at', 
+		'_meta.inserted_at',
+		'position.x', 0]
+
+coll.execute(sql, vals).all()
+\end{lstlisting}
 
 \balancecolumns
 
